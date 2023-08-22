@@ -3,15 +3,15 @@
     <form @submit.prevent="handleSubmit">
       <label>Employee name</label>
       <input
+        ref="first"
         type="text"
         :class="{ 'has-error': submitting && invalidName }"
         v-model="employee.name"
         @focus="clearStatus"
         @keypress="clearStatus"
       />
-      <label>Employee Email</label>
+      <label>Employee email</label>
       <input
-        ref="first"
         type="text"
         :class="{ 'has-error': submitting && invalidEmail }"
         v-model="employee.email"
@@ -29,8 +29,8 @@ export default {
   name: "employee-form",
   data() {
     return {
-      submitting: false,
       error: false,
+      submitting: false,
       success: false,
       employee: {
         name: "",
@@ -38,10 +38,19 @@ export default {
       },
     };
   },
+  computed: {
+    invalidName() {
+      return this.employee.name === "";
+    },
+
+    invalidEmail() {
+      return this.employee.email === "";
+    },
+  },
   methods: {
     handleSubmit() {
-      this.submitting = true;
       this.clearStatus();
+      this.submitting = true;
 
       if (this.invalidName || this.invalidEmail) {
         this.error = true;
@@ -54,23 +63,13 @@ export default {
         name: "",
         email: "",
       };
-      this.error = false;
-      this.success = true;
+      this.clearStatus();
       this.submitting = false;
     },
 
     clearStatus() {
       this.success = false;
       this.error = false;
-    },
-  },
-  computed: {
-    invalidName() {
-      return this.employee.name === "";
-    },
-
-    invalidEmail() {
-      return this.employee.email === "";
     },
   },
 };
