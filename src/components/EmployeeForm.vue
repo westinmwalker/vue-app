@@ -11,6 +11,7 @@
       />
       <label>Employee Email</label>
       <input
+        ref="first"
         type="text"
         :class="{ 'has-error': submitting && invalidEmail }"
         v-model="employee.email"
@@ -48,6 +49,7 @@ export default {
       }
 
       this.$emit("add:employee", this.employee);
+      this.$refs.first.focus();
       this.employee = {
         name: "",
         email: "",
